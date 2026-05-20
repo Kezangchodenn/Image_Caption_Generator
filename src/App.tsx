@@ -66,31 +66,60 @@ export default function App() {
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-blue-950/20 rounded-full filter blur-[100px] pointer-events-none translate-y-1/3"></div>
 
       {/* Modern Mainframe Header */}
-      <header id="mainframe-header" className="h-16 shrink-0 flex items-center justify-between px-6 md:px-10 border-b border-white/5 bg-slate-900/60 backdrop-blur-md sticky top-0 z-50">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(37,99,235,0.4)] border border-blue-400/20">
-            <Layers className="w-4 h-4 text-white" />
-          </div>
-          <div>
-            <h1 className="text-sm md:text-base font-black tracking-tight text-white uppercase">
-              BIT-GPT2 <span className="text-blue-400 font-medium tracking-wide">VisionLab</span>
-            </h1>
-            <p className="text-[9px] text-slate-400 font-mono tracking-wider text-left">
-              Image Captioning Mainframe
-            </p>
-          </div>
-        </div>
+      {/* Modern Mainframe Header */}
+<header
+  id="mainframe-header"
+  className="h-20 shrink-0 flex items-center justify-between px-6 md:px-10 border-b border-white/5 bg-slate-900/70 backdrop-blur-md sticky top-0 z-50"
+>
 
-        {/* Setup Quick Status */}
-        <div className="flex items-center gap-4">
-          <div className="hidden sm:flex flex-col items-end text-right">
-            <span className="text-[9px] uppercase tracking-widest text-slate-500 font-mono">TARGET PATH</span>
-            <span className="text-[11px] font-mono text-blue-300">
-              /bit_gpt2_caption_model.pkl
-            </span>
-          </div>
-        </div>
-      </header>
+  {/* Left Logo */}
+  <div className="flex items-center">
+    <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-blue-500 shadow-lg shadow-blue-500/30 flex items-center justify-center bg-white">
+      <img
+        src="img/logo.png"
+        className="w-full h-full object-cover rounded-full"
+        alt="Logo"
+      />
+    </div>
+  </div>
+
+  {/* Center Text */}
+  <div className="absolute left-1/2 transform -translate-x-1/2 text-center leading-tight">
+    
+    <h1 className="text-sm md:text-xl font-extrabold tracking-wide text-blue-400 uppercase">
+      Image Caption Generator
+    </h1>
+
+    <p className="text-[10px] md:text-xs text-blue-200 font-medium tracking-wide">
+      for Bhutanese Cultural and Tourism Images
+    </p>
+
+  </div>
+
+  {/* Right Status */}
+  <div className="flex items-center gap-3">
+
+    <div className="hidden sm:flex flex-col items-end">
+      <span className="text-[9px] uppercase tracking-[0.25em] text-slate-500 font-mono">
+        AI Powered
+      </span>
+
+      <span className="text-[11px] font-mono text-blue-300">
+        Vision + NLP
+      </span>
+    </div>
+
+    <div className="flex items-center gap-2">
+      <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+
+      <span className="hidden md:block text-xs text-slate-300">
+        Active
+      </span>
+    </div>
+
+  </div>
+
+</header>
 
       {/* Main Workspace Frame */}
       <main id="mainframe-workspace" className="flex-1 max-w-[1200px] w-full mx-auto p-4 md:p-6 flex flex-col gap-6 justify-center items-stretch">
@@ -98,9 +127,9 @@ export default function App() {
         {/* Model Location & Code integration Guidance Card */}
         <div className="bg-slate-900/50 border border-white/5 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0">
+            {/* <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0">
               <HelpCircle className="w-5 h-5 text-blue-400" />
-            </div>
+            </div> */}
             {/* <div className="space-y-1 text-left">
               <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider font-mono">Where is the model files code pathway?</h3>
               <p className="text-[11px] text-slate-400 leading-normal">
@@ -108,10 +137,10 @@ export default function App() {
               </p>
             </div> */}
           </div>
-          <div className="flex items-center gap-2 shrink-0 bg-slate-950/60 px-3 py-2 rounded-xl border border-white/5 font-mono text-[10px]">
+          {/* <div className="flex items-center gap-2 shrink-0 bg-slate-950/60 px-3 py-2 rounded-xl border border-white/5 font-mono text-[10px]">
             <Settings className="w-3.5 h-3.5 text-blue-400 animate-spin-slow" />
-            <span className="text-slate-300">Config: server.ts</span>
-          </div>
+            <span className="text-slate-300"></span>
+          </div> */}
         </div>
 
         {/* Main interactive section carrying UplinkDesk */}
@@ -199,9 +228,9 @@ export default function App() {
       {/* Footer Info */}
       <footer id="mainframe-footer" className="h-12 shrink-0 border-t border-white/5 bg-slate-950/60 backdrop-blur-md px-6 md:px-10 flex items-center justify-between text-[10px] text-slate-500 mt-auto">
         <div className="flex items-center gap-x-4 font-mono uppercase tracking-widest text-[9px]">
-          <span>Path: ./bit_gpt2_caption_model.pkl</span>
+          <span></span>
           <span className="w-1 h-1 bg-white/15 rounded-full"></span>
-          <span>Latency: {lastProcessedTime ? `${lastProcessedTime}ms` : "N/A"}</span>
+          {/* <span> {lastProcessedTime ? `${lastProcessedTime}ms` : "N/A"}</span> */}
         </div>
         <div>
           <span className="font-mono text-slate-400">v4.2.0 (Offline Optimized)</span>
