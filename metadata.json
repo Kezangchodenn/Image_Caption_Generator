@@ -1,0 +1,6 @@
+{
+  "name": "Custom Model Image Captioner",
+  "description": "An elegant dashboard for captioning images using a custom PyTorch/GPT-2 pickle model or a state-of-the-art Gemini engine fallback, featuring beautiful previews and live hardware/dependency diagnostics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
