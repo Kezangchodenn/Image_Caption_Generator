@@ -76,7 +76,7 @@ export default function App() {
   <div className="flex items-center">
     <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-blue-500 shadow-lg shadow-blue-500/30 flex items-center justify-center bg-white">
       <img
-        src="img/logo.png"
+        src="/logo.png"
         className="w-full h-full object-cover rounded-full"
         alt="Logo"
       />
