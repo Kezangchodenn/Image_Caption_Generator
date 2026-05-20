@@ -391,7 +391,6 @@ export default function UplinkDesk({ onSaveHistory }: UplinkDeskProps) {
           <div className="border-t border-white/5 pt-3.5 mt-5 flex items-center justify-between text-[9px] text-slate-500 font-mono">
             <span className="flex items-center gap-1.5">
               <Code className="w-3.5 h-3.5 text-slate-600" />
-              Modify loader inside server.ts
             </span>
           </div>
         </div>
