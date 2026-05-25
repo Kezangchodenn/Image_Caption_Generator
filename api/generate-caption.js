@@ -1,7 +1,15 @@
 // Vercel serverless proxy: forwards POST /api/generate-caption to configured BACKEND_URL
 export default async function handler(req, res) {
+  if (req.method === 'GET') {
+    return res.status(200).json({
+      success: false,
+      error: "This endpoint accepts POST requests with a JSON body: { image: 'data:image/...base64...' }",
+      note: "Use POST to invoke generation or set BACKEND_URL in Vercel environment to enable proxying.",
+    });
+  }
+
   if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
+    res.setHeader('Allow', 'POST, GET');
     return res.status(405).json({ success: false, error: 'Method not allowed' });
   }
 
