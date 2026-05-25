@@ -20,7 +20,7 @@ export interface ModelStatusResponse {
 export interface CaptionGenerationResponse {
   success: boolean;
   caption?: string;
-  source: "pickle" | "gemini";
+  source: "pickle" | "gemini" | "BLIP";
   error?: string;
   code?: string;
   model_type?: string;
@@ -33,7 +33,7 @@ export interface CaptionHistoryEntry {
   timestamp: string;
   image_base64: string;
   caption: string;
-  source: "pickle" | "gemini";
+  source: "pickle" | "gemini" | "BLIP";
   model_type?: string;
   execution_time_ms?: number;
 }
