@@ -1,4 +1,6 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+from werkzeug.exceptions import HTTPException
 import os
 import pickle
 import base64
@@ -11,6 +13,7 @@ import torch
 from transformers.models.gpt2.modeling_gpt2 import GPT2Attention
 
 app = Flask(__name__)
+CORS(app)
 
 preferred_model_name = os.getenv("MODEL_PICKLE_FILE", "viy_gpt2_caption_model.pkl")
 search_candidates = [preferred_model_name]
@@ -153,6 +156,25 @@ def generate_caption():
             "success": False,
             "error": str(e)
         }), 500
+
+
+@app.errorhandler(HTTPException)
+def handle_http_exception(e: HTTPException):
+    # Return JSON for HTTP exceptions (avoids HTML error pages)
+    response = {
+        "success": False,
+        "error": getattr(e, "description", str(e)),
+        "code": getattr(e, "code", 500)
+    }
+    return jsonify(response), getattr(e, "code", 500)
+
+
+@app.errorhandler(Exception)
+def handle_generic_exception(e: Exception):
+    # Catch-all for unexpected exceptions and return JSON instead of HTML
+    print("UNHANDLED EXCEPTION:")
+    traceback.print_exc()
+    return jsonify({"success": False, "error": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000)

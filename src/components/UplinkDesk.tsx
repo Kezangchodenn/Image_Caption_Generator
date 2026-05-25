@@ -97,13 +97,23 @@ export default function UplinkDesk({ onSaveHistory }: UplinkDeskProps) {
     setResponse(null);
 
     try {
-      const res = await fetch("/api/generate-caption", {
+      const BACKEND_URL = (import.meta as any).env?.VITE_BACKEND_URL || "";
+      const endpoint = BACKEND_URL ? `${BACKEND_URL.replace(/\/$/, "")}/generate-caption` : "/api/generate-caption";
+
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ image }),
       });
 
-      const data: CaptionGenerationResponse = await res.json();
+      const contentType = res.headers.get("content-type") || "";
+      let data: CaptionGenerationResponse;
+      if (contentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        const text = await res.text();
+        throw new Error(`Invalid JSON response from server: ${text.substring(0,200)}`);
+      }
       setResponse(data);
 
       if (data.success && data.caption) {
@@ -117,10 +127,11 @@ export default function UplinkDesk({ onSaveHistory }: UplinkDeskProps) {
         });
       }
     } catch (err: any) {
+      const msg = err?.message || String(err);
       setResponse({
         success: false,
         source: "pickle",
-        error: `Prediction endpoint communication error: ${err.message || err}`
+        error: `Prediction endpoint communication error: ${msg}`,
       });
     } finally {
       setCapturing(false);
@@ -369,9 +380,8 @@ export default function UplinkDesk({ onSaveHistory }: UplinkDeskProps) {
                     <div className="bg-slate-950/30 rounded-xl p-4 border border-white/5 space-y-2 text-left">
                       <div className="grid grid-cols-2 gap-4 text-[10px] font-mono leading-relaxed">
                         <div>
-                          <p className="text-slate-500 uppercase tracking-widest font-bold">Loader Pipeline</p>
+                          <p className="text-slate-500 uppercase tracking-widest font-bold"></p>
                           <p className="font-semibold text-slate-300 mt-0.5">
-                            viy_gpt2_caption_model.pkl
                           </p>
                         </div>
                         <div>
