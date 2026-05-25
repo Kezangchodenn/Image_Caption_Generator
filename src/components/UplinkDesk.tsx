@@ -35,7 +35,7 @@ export default function UplinkDesk({ onSaveHistory }: UplinkDeskProps) {
 
     const steps = [
       "Accessing local model pathway...",
-      "Reading local bit_gpt2_caption_model.pkl tensor parameters...",
+      "Reading local viy_gpt2_caption_model.pkl tensor parameters...",
       "Decoding visual features via transformer blocks...",
       "Formulating descriptive language tokens..."
     ];
@@ -371,7 +371,7 @@ export default function UplinkDesk({ onSaveHistory }: UplinkDeskProps) {
                         <div>
                           <p className="text-slate-500 uppercase tracking-widest font-bold">Loader Pipeline</p>
                           <p className="font-semibold text-slate-300 mt-0.5">
-                            bit_gpt2_caption_model.pkl
+                            viy_gpt2_caption_model.pkl
                           </p>
                         </div>
                         <div>
