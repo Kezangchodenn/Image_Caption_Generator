@@ -87,55 +87,95 @@ export default function UplinkDesk({ onSaveHistory }: UplinkDeskProps) {
   };
 
   const triggerUpload = () => {
-    fileInputRef.current?.click();
-  };
+      fileInputRef.current?.click();
+    };
 
-  const handleGenerateCaption = async () => {
+    const handleGenerateCaption = async () => {
+
     if (!image) return;
 
     setCapturing(true);
+
     setResponse(null);
 
     try {
-      const BACKEND_URL = (import.meta as any).env?.VITE_BACKEND_URL || "";
-      const endpoint = BACKEND_URL ? `${BACKEND_URL.replace(/\/$/, "")}/generate-caption` : "/api/generate-caption";
 
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image }),
+      // Convert base64 image back into file/blob
+      const responseFetch = await fetch(image);
+
+      const blob = await responseFetch.blob();
+
+      const formData = new FormData();
+
+      formData.append(
+        "file",
+        blob,
+        "uploaded_image.jpg"
+      );
+
+      // Connect to FastAPI backend
+      const res = await fetch(
+        "http://localhost:8000/generate-caption",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await res.json();
+
+      // Build UI-compatible response
+      const formattedResponse: CaptionGenerationResponse = {
+
+        success: true,
+
+        caption: data.caption,
+
+        source: "BLIP",
+
+        execution_time_ms: 0,
+      };
+
+      setResponse(formattedResponse);
+
+      // Save history
+      onSaveHistory({
+
+        id: Math.random().toString(36).substring(4),
+
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+
+        image_base64: image,
+
+        caption: data.caption,
+
+        source: "BLIP",
+
+        execution_time_ms: 0,
       });
 
-      const contentType = res.headers.get("content-type") || "";
-      let data: CaptionGenerationResponse;
-      if (contentType.includes("application/json")) {
-        data = await res.json();
-      } else {
-        const text = await res.text();
-        throw new Error(`Invalid JSON response from server: ${text.substring(0,200)}`);
-      }
-      setResponse(data);
-
-      if (data.success && data.caption) {
-        onSaveHistory({
-          id: Math.random().toString(36).substring(4),
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          image_base64: image,
-          caption: data.caption,
-          source: data.source,
-          execution_time_ms: data.execution_time_ms,
-        });
-      }
     } catch (err: any) {
-      const msg = err?.message || String(err);
+
       setResponse({
+
         success: false,
-        source: "pickle",
-        error: `Prediction endpoint communication error: ${msg}`,
+
+        source: "BLIP",
+
+        error: `Prediction endpoint communication error: ${
+          err.message || err
+        }`,
       });
+
     } finally {
+
       setCapturing(false);
+
       setLoadingStep("");
+
     }
   };
 
